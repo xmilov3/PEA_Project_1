@@ -60,10 +60,10 @@ void load_graph_from_file(const std::string& filename, Graph& graph) {
 }
 
 // Funkcja generujaca graf
-void generate_random_graph(Graph& graph, int density) {
+void generate_random_graph(Graph& graph, int density, int vertice) {
     srand(static_cast<unsigned int>(time(nullptr)));
 
-    graph.V = rand()%10+5; // Random number of vertices from 5 to 14
+    graph.V = vertice;
     graph.E = (graph.V*(graph.V-1)*density)/200;
 
     delete[] graph.edges; // Deleting previous data
@@ -76,18 +76,41 @@ void generate_random_graph(Graph& graph, int density) {
     }
 }
 
-// Funkcja wyświetlająca graf
-void display_graph(const Graph& graph) {
-    std::cout << "Liczba wierzcholkow: " << graph.V << "\n";
-    std::cout << "ELiczba krawedzi: " << graph.E << "\n";
 
-    std::cout << "Opis krawedzi:\n";
-    for (int i = 0; i < graph.E; ++i) {
-        std::cout << "Poczatek: " << graph.edges[i].beginning << ", End: "<<graph.edges[i].end
-                  << ", Waga/przepustowosc: " << graph.edges[i].weight << "\n";
-    }
+
+
+// Funkcja wyświetlająca graf
+void display_graph(const Graph& graph, int density) {
+
+        std::cout << "Liczba wierzcholkow: " << graph.V << "\n";
+        std::cout << "Gestosc: " << density << "%" << "\n";
+        std::cout << "Liczba krawedzi: " << graph.E << "\n";
+        std::cout << "Opis krawedzi:\n";
+        for (int i = 0; i < graph.E; ++i) {
+            std::cout << "Poczatek: " << graph.edges[i].beginning << ", Koniec: " << graph.edges[i].end
+                      << ", Waga/przepustowosc: " << graph.edges[i].weight << "\n";
+        }
+
 }
 
+// Funkcja zapisująca graf do pliku tekstowego
+void save_graph(const Graph& graph, const std::string& filename) {
+    std::ofstream file(filename);
+    if (!file.is_open()) {
+        std::cerr << "Nie można otworzyć pliku do zapisu.\n";
+        return;
+    }
+
+    // Zapisz liczbę krawędzi i wierzchołków w pierwszym wierszu
+    file << graph.E << " " << graph.V << "\n";
+
+    // Zapisz opis każdej krawędzi w kolejnych wierszach
+    for (int i = 0; i < graph.E; ++i) {
+        file << graph.edges[i].beginning << " " << graph.edges[i].end << " " << graph.edges[i].weight << "\n";
+    }
+
+    file.close();
+}
 int main(){
     Graph myGraph;
     int choice;
@@ -105,8 +128,9 @@ int main(){
 
         switch(choice){
             case 1:
+
             std::cout<<"Wybrano wczytanie grafu z pliksu tekstowego\n";
-            std::cout<<"Wpisz nazwe pliku (z rozszerzeniem np. '.txt'\n";
+            std::cout<<"Wpisz nazwe pliku (z rozszerzeniem np. '.txt')\n";
             std::cin>>filename;
             load_graph_from_file(filename, myGraph);
             std::cout<<"Graf zostal wczytany pomyslnie\n";
@@ -114,24 +138,30 @@ int main(){
 
             case 2:
                 int density;
+                int vertice;
             std::cout<<"Wybrano generowanie losowego grafu\n";
-            std::cout<<"Wpisz gestosc grafu\n";
+            std::cout<<"Wpisz gestosc grafu (wystarczy sama liczba, nie trzeba pisać znaku '%')\n";
             std::cin>>density;
-            generate_random_graph(myGraph, density);
+            std::cout<<"Wpisz liczbe wierzcholkow grafu\n";
+                std::cin>>vertice;
+            generate_random_graph(myGraph, density, vertice);
             std::cout<<"Graf zostal wygenerowany pomyslnie\n";
             break;
 
             case 3:
                 std::cout<<"Wybrano wyswietlenie grafu\n";
-                display_graph(myGraph);
+                display_graph(myGraph, density);
                 break;
 
             case 4:
             std::cout<<"Wybrano zapisanie grafu do pliku\n";
+            std::cout<<"Napisz nazwe pliku (z rozszerzeniem np. '.txt')\n";
+            std::cin>>filename;
+            save_graph(myGraph, filename);
             break;
 
             case 5:
-            std::cout<<"Wybrano uruchomienie algorytmu Dijsktry\n";
+            std::cout<<"Wybrano uruchomienie algorytmu Dijsktry (listowo/macierzowo)\n";
             break;
         }
     }
