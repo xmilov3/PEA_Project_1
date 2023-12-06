@@ -9,7 +9,7 @@
 // Jedynie komentarze oraz tekst wyświetlany w konsoli jest w języku polskim aby ułatwić pracę oceniającemu.
 // Indeks studenta: 264164
 // W celu monitorowania zmian projekt jest dostępny na platformie Github.
-//
+// https://github.com/xmilov3/PEA_Project_1
 // ============================================================================================================
 
 // Zmienne
