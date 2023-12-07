@@ -135,7 +135,7 @@ void display_graph(const Graph& graph) {
     auto end = std::chrono::high_resolution_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - begin);
 
-    std::cout << "Operacja trwala: " << elapsed.count() << " mikrosekund.\n";
+    std::cout << "Cała operacja trwala: " << elapsed.count() << " mikrosekund.\n";
 }
 
 
@@ -207,7 +207,7 @@ void dijkstry_matrix(const Graph& graph, int start_vertex, int end_vertex) {
     }
 
     // Wyświetl wyniki
-    std::cout << "Najkrotsza odleglosc z wierzcholka " << start_vertex << " do " << end_vertex << " wynosi: "
+    std::cout << "W reprezentacji macierzowej najkrotsza odleglosc z wierzcholka " << start_vertex << " do " << end_vertex << " wynosi: "
               << distance[end_vertex] << "\n";
 
     // Zwolnij pamięć
@@ -254,7 +254,7 @@ void dijkstry_list(const Graph& graph, int start_vertex, int end_vertex) {
     }
 
     // Wyświetl wyniki
-    std::cout << "Najkrotsza odleglosc z wierzcholka " << start_vertex << " do " << end_vertex << " wynosi: "
+    std::cout << "W reprezentacji listowej najkrotsza odleglosc z wierzcholka " << start_vertex << " do " << end_vertex << " wynosi: "
               << distance[end_vertex] << "\n";
     auto end = std::chrono::high_resolution_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - begin);
